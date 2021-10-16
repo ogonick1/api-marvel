@@ -1,4 +1,5 @@
 import { Component } from "react";
+import { withTranslation } from 'react-i18next';
 import AppHeader from "../appHeader/AppHeader";
 import RandomChar from "../randomChar/RandomChar";
 import CharList from "../charList/CharList";
@@ -7,36 +8,39 @@ import ErrorBoundary from "../errorBoundary/ErrorBoundary";
 
 import decoration from '../../resources/img/vision.png';
 
+
 class App extends Component {
+	state = {
+		selectedChar: null,
+	};
 
-    state = {
-        selectedChar: null
-    }
+	onCharSelected = (id) => {
+		this.setState({
+			selectedChar: id,
+		});
+	}
 
-onCharSelected = (id) => {
-    this.setState({
-        selectedChar: id
-    })
+	render() {
+		const { selectedChar } = this.state;
+
+		return (
+			<div className="app">
+				123
+				<AppHeader />
+				342
+				<main>
+					<RandomChar />
+					<div className="char__content">
+						<CharList onCharSelected={this.onCharSelected} />
+						<ErrorBoundary>
+							<CharInfo charId={selectedChar} />
+						</ErrorBoundary>
+					</div>
+					<img className="bg-decoration" src={decoration} alt="vision" />
+				</main>
+			</div>
+		)
+	}
 }
 
-render() {
-    return (
-        <div className="app">
-            <AppHeader/>
-            <main>
-                <RandomChar/>
-                <div className="char__content">
-                    <CharList onCharSelected={this.onCharSelected} />
-                    <ErrorBoundary>
-                    <CharInfo charId={this.state.selectedChar}/>
-                    </ErrorBoundary>
-                    
-                </div>
-                <img className="bg-decoration" src={decoration} alt="vision"/>
-            </main>
-        </div>
-    )
-}
-}
-
-export default App;
+export default withTranslation()(App);
